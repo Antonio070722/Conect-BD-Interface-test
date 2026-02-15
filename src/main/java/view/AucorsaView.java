@@ -1,8 +1,12 @@
 package view;
 
+import controller.DAO.DriverDAO;
+import model.Driver;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class AucorsaView extends JFrame {
     private JPanel panelBtns = new JPanel();
@@ -29,8 +33,22 @@ public class AucorsaView extends JFrame {
 
         this.add(vistaTabla, BorderLayout.CENTER);
 
+        cargarTabla(tablaDrivers, vistaTabla);
+
         this.setVisible(true);
 
+    }
+
+    public static void cargarTabla(DefaultTableModel table, JTable vistaTabla){
+        ArrayList<Driver> conductoresCargar = DriverDAO.cargarDrivers();
+        table = (DefaultTableModel) vistaTabla.getModel();
+        for (Driver d : conductoresCargar){
+            table.addRow(new Object[]{
+                    d.getNumeroConductor(),
+                    d.getNombre(),
+                    d.getApellido()
+            });
+        }
     }
 
     public JPanel getPanelBtns() {
@@ -72,6 +90,4 @@ public class AucorsaView extends JFrame {
     public void setBtndelt(JButton btndelt) {
         this.btndelt = btndelt;
     }
-
-    public void cargarTabla
 }
