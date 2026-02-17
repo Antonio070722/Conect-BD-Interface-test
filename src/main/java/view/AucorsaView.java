@@ -12,6 +12,7 @@ public class AucorsaView extends JFrame {
     private JPanel panelBtns = new JPanel();
     private JButton btnadd = new JButton("Añadir");
     private JButton btndelt = new JButton("Borrar");
+    private JButton btnrefres = new JButton("Refrescar");
 
     private DefaultTableModel tablaDrivers;
     private JTable vistaTabla;
@@ -27,6 +28,7 @@ public class AucorsaView extends JFrame {
         this.add(panelBtns, BorderLayout.NORTH);
         panelBtns.add(btnadd);
         panelBtns.add(btndelt);
+        panelBtns.add(btnrefres);
 
         tablaDrivers = new DefaultTableModel(new String[]{"Número", "Nombre", "Apellidos"},0);
         vistaTabla = new JTable(tablaDrivers);
@@ -90,4 +92,14 @@ public class AucorsaView extends JFrame {
     public void setBtndelt(JButton btndelt) {
         this.btndelt = btndelt;
     }
+
+    public JButton getBtnrefres() {
+        return btnrefres;
+    }
+
+    public void setBtnrefres(JButton btnrefres) {
+        this.btnrefres = btnrefres;
+    }
+
+
 }
