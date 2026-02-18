@@ -16,7 +16,8 @@ public class AddDriverView extends JFrame{
         setSize(300,200);
         setLocationRelativeTo(null);
         //Panel para los datos del nuevo conductor, he usado grid porque para formularios es lo mas indicado
-        //En los parentesis, los números: primero: filas(numDriver, nombre y apellido), segundo: columnas(label y textField),
+
+        //En los parentesis, de GridLayout primero: filas(numDriver, nombre y apellido), segundo: columnas(label y textField),
         //tercero y cuarto: espaciado vertical y horizontal
         JPanel Driverform = new JPanel(new GridLayout(3, 2, 10, 10));
         //Los botones los he metido en otro panel con flowLayout el cual alinea los elementos uno despues del otro

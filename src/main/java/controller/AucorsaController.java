@@ -4,12 +4,14 @@ import controller.DAO.DriverDAO;
 import model.Driver;
 import view.AddDriverView;
 import view.AucorsaView;
+import view.DeleteDriverView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AucorsaController {
@@ -22,10 +24,11 @@ public class AucorsaController {
         //He añadido un escuchador al botón de añadir, para que llame la metodo addDriver.
         view.getBtnadd().addActionListener(e -> addDriver());
         view.getBtnrefres().addActionListener(e -> refrescarTabla());
+        view.getBtndelt().addActionListener(e -> borrarDriver());
 
     }
 
-    private void refrescarTabla() {
+    public void refrescarTabla() {
         try{
             conductores = DriverDAO.cargarDrivers();
             if (conductores.isEmpty()){
@@ -44,5 +47,10 @@ public class AucorsaController {
     public static void addDriver(){
         AddDriverView panel = new AddDriverView();
         new AddDriverController(panel);
+    }
+
+    public static void borrarDriver(){
+        DeleteDriverView panel = new DeleteDriverView();
+        new DeleteDriverController(panel);
     }
 }
