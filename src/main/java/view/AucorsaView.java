@@ -25,6 +25,17 @@ public class AucorsaView extends JFrame {
 
         setLayout(new BorderLayout());
 
+        JTabbedPane tabs = new JTabbedPane();
+
+        JPanel conductorPanel = new JPanel();
+        conductorPanel.setBackground(new Color(0,77,246));
+        JPanel busPanel = new JPanel();
+        busPanel.setBackground(new Color(120, 77, 246));
+
+        tabs.addTab("Conductor", conductorPanel);
+        tabs.addTab("Bus", busPanel);
+        add(tabs, BorderLayout.CENTER);
+
         this.add(panelBtns, BorderLayout.NORTH);
         panelBtns.add(btnadd);
         panelBtns.add(btndelt);
@@ -33,7 +44,7 @@ public class AucorsaView extends JFrame {
         tablaDrivers = new DefaultTableModel(new String[]{"Número", "Nombre", "Apellidos"},0);
         vistaTabla = new JTable(tablaDrivers);
 
-        this.add(vistaTabla, BorderLayout.CENTER);
+        conductorPanel.add(vistaTabla, BorderLayout.CENTER);
 
         cargarTabla(tablaDrivers, vistaTabla);
 
