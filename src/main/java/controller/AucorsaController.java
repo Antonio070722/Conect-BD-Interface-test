@@ -7,11 +7,6 @@ import view.AucorsaView;
 import view.DeleteDriverView;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AucorsaController {
@@ -26,6 +21,7 @@ public class AucorsaController {
         view.getBtnrefres().addActionListener(e -> refrescarTabla());
         view.getBtndelt().addActionListener(e -> borrarDriver());
 
+
     }
 
     public void refrescarTabla() {
@@ -35,7 +31,7 @@ public class AucorsaController {
                 JOptionPane.showMessageDialog(view, "No hay nada que mostrar", "Información", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 view.getTablaDrivers().setRowCount(0);
-                view.cargarTabla(view.getTablaDrivers(), view.getVistaTabla());
+                view.cargarTablaDrivers(view.getTablaDrivers(), view.getVistaTablaDrivers());
             }
         } catch (Exception e) {
             System.out.println("Error al refrescar la tabla");

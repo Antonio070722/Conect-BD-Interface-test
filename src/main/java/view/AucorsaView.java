@@ -1,10 +1,13 @@
 package view;
 
+import controller.DAO.BusDAO;
 import controller.DAO.DriverDAO;
+import model.Bus;
 import model.Driver;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -15,7 +18,10 @@ public class AucorsaView extends JFrame {
     private JButton btnrefres = new JButton("Refrescar");
 
     private DefaultTableModel tablaDrivers;
-    private JTable vistaTabla;
+    private JTable vistaTablaDrivers;
+
+    private DefaultTableModel tablaBuses;
+    private JTable vistaTablaBuses;
 
     public AucorsaView() {
         super("Sistema de gestión AUCORSA");
@@ -28,12 +34,12 @@ public class AucorsaView extends JFrame {
         JTabbedPane tabs = new JTabbedPane();
 
         JPanel conductorPanel = new JPanel();
-        conductorPanel.setBackground(new Color(0,77,246));
         JPanel busPanel = new JPanel();
-        busPanel.setBackground(new Color(120, 77, 246));
+        JPanel rutepanel = new JPanel();
 
         tabs.addTab("Conductor", conductorPanel);
         tabs.addTab("Bus", busPanel);
+        tabs.add("Rutas", rutepanel);
         add(tabs, BorderLayout.CENTER);
 
         this.add(panelBtns, BorderLayout.NORTH);
@@ -41,18 +47,61 @@ public class AucorsaView extends JFrame {
         panelBtns.add(btndelt);
         panelBtns.add(btnrefres);
 
-        tablaDrivers = new DefaultTableModel(new String[]{"Número", "Nombre", "Apellidos"},0);
-        vistaTabla = new JTable(tablaDrivers);
+        //Creacion y carga de los datos en la tabla de conductores
+        tablaDrivers = new DefaultTableModel(new String[]{"Número", "Nombre", "Apellidos"},0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
 
-        conductorPanel.add(vistaTabla, BorderLayout.CENTER);
+            }
+        };
+        vistaTablaDrivers = new JTable(tablaDrivers);
+        vistaTablaDrivers.getTableHeader().setReorderingAllowed(false);
+        JScrollPane scrollPaneDriver = new JScrollPane(vistaTablaDrivers);
 
-        cargarTabla(tablaDrivers, vistaTabla);
+        conductorPanel.add(scrollPaneDriver, BorderLayout.CENTER);
+
+        cargarTablaDrivers(tablaDrivers, vistaTablaDrivers);
+
+        //Crear y cargar tabla bus
+        tablaBuses = new DefaultTableModel(new String[]{"Registro", "Tipo", "Licencia"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+
+            }
+        };
+        vistaTablaBuses = new JTable(tablaBuses);
+        vistaTablaBuses.getTableHeader().setReorderingAllowed(false);
+        JScrollPane scrollPaneBuses = new JScrollPane(vistaTablaBuses);
+
+        busPanel.add(scrollPaneBuses, BorderLayout.CENTER);
+
+        cargarTablaBuses(tablaBuses, vistaTablaBuses);
 
         this.setVisible(true);
 
     }
 
-    public static void cargarTabla(DefaultTableModel table, JTable vistaTabla){
+    private void cargarTablaBuses(DefaultTableModel tablaBuses, JTable vistaTablaBuses) {
+        ArrayList<Bus> busesCargar = new ArrayList<>();
+        try {
+            busesCargar = BusDAO.cargarBuses();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Ha ocurrido un error en la carga de la tabla", "Error de carga", JOptionPane.ERROR_MESSAGE);
+        }
+        tablaBuses = (DefaultTableModel) vistaTablaBuses.getModel();
+        for (Bus b :  busesCargar) {
+            tablaBuses.addRow(new Object[]{
+                    b.getRegistro(),
+                    b.getTipo(),
+                    b.getLicencia()
+            });
+        }
+
+    }
+
+    public static void cargarTablaDrivers(DefaultTableModel table, JTable vistaTabla){
         ArrayList<Driver> conductoresCargar = DriverDAO.cargarDrivers();
         table = (DefaultTableModel) vistaTabla.getModel();
         for (Driver d : conductoresCargar){
@@ -80,12 +129,12 @@ public class AucorsaView extends JFrame {
         this.tablaDrivers = tablaDrivers;
     }
 
-    public JTable getVistaTabla() {
-        return vistaTabla;
+    public JTable getVistaTablaDrivers() {
+        return vistaTablaDrivers;
     }
 
-    public void setVistaTabla(JTable vistaTabla) {
-        this.vistaTabla = vistaTabla;
+    public void setVistaTablaDrivers(JTable vistaTablaDrivers) {
+        this.vistaTablaDrivers = vistaTablaDrivers;
     }
 
     public JButton getBtnadd() {
